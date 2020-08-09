@@ -1,0 +1,22 @@
+<configuration debug="true">
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+  <withJansi>false</withJansi>
+    <encoder>
+      <pattern> %d{HH:mm:ss} %highlight(%-5level) %green([%logger{36}.%M]) - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <logger name="jdbc" level="OFF"/>
+  <logger name="jdbc.sqlonly" level="OFF"/>
+  <logger name="jdbc.sqltiming" level="DEBUG"/>
+  <logger name="jdbc.audit" level="OFF"/>
+  <logger name="jdbc.resultset" level="OFF"/>
+  <logger name="jdbc.resultsettable" level="OFF"/>
+  <logger name="jdbc.connection" level="OFF"/>
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+  
+</configuration>

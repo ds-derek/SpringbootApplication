@@ -1,0 +1,40 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+spring:
+
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: create
+        #show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 50
+    open-in-view: false
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+
+
+  datasource:
+    username: sa
+    hikari:
+      jdbc-url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
+    initialization-mode: always
+
+  h2:
+    console:
+      enabled: true
+
+jwt:
+  header: Authorization
+  # Base64 키
+  base64-secret: ZGFmYTRjNTA5MmVkMWE4YmVhNWFiMTIwOTk5NDE5OGRlZDRiMzljYWExZGQxZTYzNGM5NzI4MmM1ZTAyZGU0ZGU5YmExNDgyYTJkYTJhNjk3MGIwMzE4MmEyZGFmODA0N2ZiMjY1ZDM5NDdkZGZkNTAzMTZiYzJjZjgzZTMyNjAK
+  # 24시간
+  token-validity-in-seconds: 86400
+
+logging.level:
+  com.example.app: debug
+  org.hibernate.SQL: debug
+  org.hibernate.type.descriptor.sql: trace
