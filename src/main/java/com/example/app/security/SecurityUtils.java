@@ -44,6 +44,7 @@ public class SecurityUtils {
       UserDetails details;
       try{
          details = (UserDetails) authentication.getPrincipal();
+         log.warn("details = {}", details);
       }catch (ClassCastException e){
          log.debug("no authentication in security context found");
          return Optional.empty();

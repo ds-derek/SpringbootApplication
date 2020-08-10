@@ -76,11 +76,12 @@ public class TokenProvider implements InitializingBean {
             .collect(Collectors.toList());
 
       User principal = new User(email, "", authorities);
-
+      log.debug("principal = {}" , principal);
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
    }
 
    public boolean validateToken(String authToken) {
+      log.warn("token = {}", authToken);
       try {
          Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
          return true;

@@ -39,7 +39,7 @@ public class AccountDetailsService implements UserDetailsService {
          UserDetails userDetails = accountRepository.findOneWithRolesByEmailAddrIgnoreCase(login)
             .map(account -> createSpringSecurityUser(login, account))
             .orElseThrow(() -> new UsernameNotFoundException("User with email " + login + " was not found in the database"));
-         log.debug("userDetail ::" + userDetails);
+         log.debug("email userDetail = " + userDetails);
          return userDetails;
       }
       String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
@@ -56,7 +56,7 @@ public class AccountDetailsService implements UserDetailsService {
       List<GrantedAuthority> grantedAuthorities = account.getRoles().stream()
          .map(authority -> new SimpleGrantedAuthority(authority.getName()))
          .collect(Collectors.toList());
-      return new org.springframework.security.core.userdetails.User(account.getEmailAddr(),
+      return new org.springframework.security.core.userdetails.User(account.getName(),
          account.getPassword(),
          grantedAuthorities);
    }

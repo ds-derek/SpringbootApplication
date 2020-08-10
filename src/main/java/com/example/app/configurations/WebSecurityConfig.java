@@ -2,6 +2,7 @@ package com.example.app.configurations;
 
 import com.example.app.security.JwtAccessDeniedHandler;
 import com.example.app.security.JwtAuthenticationEntryPoint;
+import com.example.app.security.jwt.JWTConfigurer;
 import com.example.app.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -53,11 +55,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .sameOrigin()
                 .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/v1/hello").permitAll()
                 .antMatchers(HttpMethod.POST,"/v1/member/join").permitAll()
                 .antMatchers(HttpMethod.POST,"/v1/member/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/v1/member/info").hasAuthority("ROLE_USER");
+                .antMatchers(HttpMethod.GET, "/v1/member/info").hasAuthority("ROLE_USER")
+                .anyRequest().authenticated()
+                .and()
+                .apply(securityConfigurerAdapter());
     }
 
     @Override
@@ -79,5 +87,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html",
                         "/webjars/**"
                 );
+    }
+    private JWTConfigurer securityConfigurerAdapter() {
+        return new JWTConfigurer(tokenProvider);
     }
 }

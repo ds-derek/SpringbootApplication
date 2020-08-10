@@ -43,9 +43,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Optional<Account> getAccount(){
-//        return SecurityUtils.getCurrentAuthentication().flatMap(x-> accountRepository.findOneByEmailAddr(x.getUsername()));
         return SecurityUtils.getCurrentUsername().flatMap(accountRepository::findOneByEmailAddr);
-
     }
 
     public Optional<Account> saveUser(SignUpForm signUpForm) {

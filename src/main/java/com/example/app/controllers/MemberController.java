@@ -26,12 +26,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Api(value="MemberController", tags="2. Member")
 @RestController
 @RequestMapping("/v1/member")
 public class MemberController {
-   private final Logger logger = LoggerFactory.getLogger(MemberController.class);
+   private final Logger log = LoggerFactory.getLogger(MemberController.class);
 
    private final TokenProvider tokenProvider;
 
@@ -98,7 +102,10 @@ public class MemberController {
    })
    public ResponseEntity<SuccessResponse<MemberInfoView>> info(){
       Account account = memberService.getAccount().orElseThrow(() -> new NoEntityFoundException("Member", "member Email"));
-      MemberInfoView memberInfoView = new MemberInfoView(account.getName(), account.getEmailAddr(), account.getLastLoginAt().toString());
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.n");
+      LocalDateTime lastLoginAt = account.getLastLoginAt();
+      String stringDate = lastLoginAt == null ? "" : lastLoginAt.format(formatter);
+      MemberInfoView memberInfoView = new MemberInfoView(account.getName(), account.getEmailAddr(), stringDate );
       return new ResponseEntity<>(new SuccessResponse<>(memberInfoView), HttpStatus.OK);
    }
 }
