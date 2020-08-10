@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
- * found.
+ * 들어오는 요청을 필터링하고 유효한 사용자에 해당하는 헤더가 발견되면 Spring Security principal을 생성함.
  */
 public class JWTFilter extends GenericFilterBean {
 
@@ -36,7 +35,6 @@ public class JWTFilter extends GenericFilterBean {
       HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
       String jwt = resolveToken(httpServletRequest);
       String requestURI = httpServletRequest.getRequestURI();
-      log.warn("jwt = {}", jwt);
       if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
          Authentication authentication = tokenProvider.getAuthentication(jwt);
          SecurityContextHolder.getContext().setAuthentication(authentication);

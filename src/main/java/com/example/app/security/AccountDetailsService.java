@@ -19,7 +19,8 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
- * 유저 인증
+ * Database 와 대조하여 유저 인증.
+ * user login id 가 email 형식이면 email column 을 탐색함.
  */
 @Component("userDetailsService")
 public class AccountDetailsService implements UserDetailsService {
@@ -39,7 +40,6 @@ public class AccountDetailsService implements UserDetailsService {
          UserDetails userDetails = accountRepository.findOneWithRolesByEmailAddrIgnoreCase(login)
             .map(account -> createSpringSecurityUser(login, account))
             .orElseThrow(() -> new UsernameNotFoundException("User with email " + login + " was not found in the database"));
-         log.debug("email userDetail = " + userDetails);
          return userDetails;
       }
       String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);

@@ -3,10 +3,12 @@ package com.example.app.services;
 import com.example.app.dtos.SignUpForm;
 import com.example.app.entities.Account;
 import com.example.app.entities.Role;
+import com.example.app.exceptions.DuplicateAccountException;
 import com.example.app.exceptions.NoEntityFoundException;
 import com.example.app.repositories.AccountRepository;
 import com.example.app.repositories.RoleRepository;
 import com.example.app.security.SecurityUtils;
+import javassist.bytecode.DuplicateMemberException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,6 +49,7 @@ public class MemberService {
     }
 
     public Optional<Account> saveUser(SignUpForm signUpForm) {
+        if (!validateEmailUnique(signUpForm.getId())) throw new DuplicateAccountException(signUpForm.getId());
         Account account = Account.builder()
                 .name(signUpForm.getName())
                 .emailAddr(signUpForm.getId())
@@ -60,5 +63,10 @@ public class MemberService {
     public void updateLastLoginAt(String username) {
         Account member = accountRepository.findOneByEmailAddr(username).orElseThrow(() -> new NoEntityFoundException("Member", username));
         member.setLastLoginAt(LocalDateTime.now());
+    }
+
+    public boolean validateEmailUnique(String emailAddr){
+        Optional<Account> findEmail = accountRepository.findOneByEmailAddr(emailAddr);
+        return !findEmail.isPresent();
     }
 }

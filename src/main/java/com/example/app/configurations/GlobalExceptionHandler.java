@@ -1,6 +1,7 @@
 package com.example.app.configurations;
 
 import com.example.app.enums.Errors;
+import com.example.app.exceptions.DuplicateAccountException;
 import com.example.app.exceptions.NoEntityFoundException;
 import com.example.app.responses.ErrorResponse;
 import org.slf4j.Logger;
@@ -22,6 +23,14 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     private final Logger log = LoggerFactory.getLogger( this.getClass() );
+
+    @ExceptionHandler(DuplicateAccountException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateAccountExceptionException(DuplicateAccountException e, HttpServletRequest request){
+        String path = request.getRequestURL().toString();
+        ErrorResponse response = ErrorResponse.of(Errors.EMAIL_DUPLICATION, path, e.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e, HttpServletRequest request){
