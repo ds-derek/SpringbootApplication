@@ -1,4 +1,4 @@
-package com.example.app.security.jwt;
+package com.example.app.dtos;
 
 public class TokenSet {
 
