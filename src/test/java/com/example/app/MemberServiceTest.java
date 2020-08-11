@@ -46,7 +46,7 @@ public class MemberServiceTest {
         SignUpForm signUpForm = new SignUpForm();
 
         signUpForm.setName("myName");
-        signUpForm.setId("test@test.com");
+        signUpForm.setId("testAccont@test.com");
         signUpForm.setPassword("12345");
 
         Account saveMember = memberService.saveUser(signUpForm).orElseThrow(() -> new Exception("save failed"));

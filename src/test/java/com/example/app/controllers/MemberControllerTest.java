@@ -22,7 +22,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("Test Case :: Unknown Member Try To Login")
     public void test_unknown_member_login() throws Exception {
-        String mockReq = "{'username' : 'test@test.com', 'password' : '12345'}";
+        String mockReq = "{'id' : 'testAccount@test.com', 'password' : '12345password!!!'}";
         String req = JsonParser.parseString(mockReq).getAsJsonObject().toString();
 
         this.mockMvc.perform(post("/v1/member/login").contentType("application/json").content(req))

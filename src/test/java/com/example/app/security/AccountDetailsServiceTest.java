@@ -38,6 +38,6 @@ public class AccountDetailsServiceTest {
     @DisplayName("Test Case for AccountDetailService loadUserByUsername method")
     public void test_userDetails(){
         UserDetails userDetails = accountDetailsService.loadUserByUsername("test@test.com");
-        assertEquals("test@test.com", userDetails.getUsername());
+        assertEquals("test", userDetails.getUsername());
     }
 }
