@@ -53,12 +53,12 @@ public class MemberController {
    @PostMapping("/join")
    @ApiOperation(value = "유저 등록", notes="memnber join")
    @ApiResponses({
-           @ApiResponse(code = 201, message = "등록성공", response=SuccessResponse.class),
+           @ApiResponse(code = 201, message = "등록성공"),
            @ApiResponse(code = 400, message = "잘못된 파라메터"),
            @ApiResponse(code = 401, message = "잘못된 계정"),
            @ApiResponse(code = 500, message = "서버 에러"),
    })
-   public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm) {
+   public ResponseEntity<SuccessResponse<?>> register(@Valid @RequestBody SignUpForm signUpForm) {
       Account account = memberService.saveUser(signUpForm).orElseThrow(()->new RuntimeException("user create failed."));
       HttpHeaders httpHeaders = new HttpHeaders();
       httpHeaders.set("userId", String.valueOf(account.getId()));

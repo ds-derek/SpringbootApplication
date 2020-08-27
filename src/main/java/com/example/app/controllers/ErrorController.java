@@ -24,9 +24,9 @@ public class ErrorController extends AbstractErrorController {
     }
 
     @GetMapping
-    public ResponseEntity<?> error(final HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> error(final HttpServletRequest request) {
         Map<String, Object> errorAttributes = this.getErrorAttributes(request, false);
-        ErrorResponse res = ErrorResponse.of(errorAttributes);
+        ErrorResponse res = ErrorResponse.response(errorAttributes);
         final HttpStatus status = this.getStatus(request);
         return new ResponseEntity<>(res, status);
     }

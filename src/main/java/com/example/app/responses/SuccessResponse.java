@@ -1,10 +1,9 @@
 package com.example.app.responses;
 import java.time.LocalDateTime;
 
-public class SuccessResponse<T> extends AbstractResponse{
+public class SuccessResponse <T> extends AbstractResponse{
     
     private T data;
-
 
     public SuccessResponse(T data) {
         this.timestamp = LocalDateTime.now().toString();
@@ -20,11 +19,11 @@ public class SuccessResponse<T> extends AbstractResponse{
         this.message = message;
     }
 
-    public static SuccessResponse<?> response(Object data) {
-        return new SuccessResponse<>(data, "success");
+    public static <T> SuccessResponse<T> response(T data) {
+        return new SuccessResponse<T>(data, "success");
     }
 
-    public static SuccessResponse<?> response(String message) {
+    public static <T> SuccessResponse<T> response(String message) {
         return new SuccessResponse<>(null, message);
     }
 

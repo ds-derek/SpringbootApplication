@@ -55,29 +55,29 @@ public class ErrorResponse extends AbstractResponse{
         this.errors = new ArrayList<>();
     }
 
-    public static ErrorResponse of(final Errors error, String path, final BindingResult bindingResult) {
+    public static ErrorResponse response(final Errors error, String path, final BindingResult bindingResult) {
         return new ErrorResponse(error, path, FieldError.of(bindingResult));
     }
-    public static ErrorResponse of(final Errors error,  String path, final MethodParameter methodParameter) {
+    public static ErrorResponse response(final Errors error, String path, final MethodParameter methodParameter) {
         return new ErrorResponse(error, path, ParameterError.of(methodParameter));
     }
 
-    public static ErrorResponse of(final Errors error, String path) {
+    public static ErrorResponse response(final Errors error, String path) {
         return new ErrorResponse(error, path);
     }
-    public static ErrorResponse of(final Errors error,  String path, String message) {
+    public static ErrorResponse response(final Errors error, String path, String message) {
         return new ErrorResponse(error, path, message);
     }
 
-    public static ErrorResponse of(final Errors error, String path, final List<Error> errors) {
+    public static ErrorResponse response(final Errors error, String path, final List<Error> errors) {
         return new ErrorResponse(error, path, errors);
     }
 
-    public static ErrorResponse of(final Map<String, Object> errorAttributes) {
+    public static ErrorResponse response(final Map<String, Object> errorAttributes) {
         return new ErrorResponse(errorAttributes);
     }
 
-    public static ErrorResponse of(String path, MethodArgumentTypeMismatchException e) {
+    public static ErrorResponse response(String path, MethodArgumentTypeMismatchException e) {
         final String value = e.getValue() == null ? "" : e.getValue().toString();
         final List<Error> errors = FieldError.of(e.getName(), value, e.getErrorCode());
         return new ErrorResponse(Errors.INVALID_TYPE_VALUE, path, errors);

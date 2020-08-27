@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateAccountException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateAccountExceptionException(DuplicateAccountException e, HttpServletRequest request){
         String path = request.getRequestURL().toString();
-        ErrorResponse response = ErrorResponse.of(Errors.EMAIL_DUPLICATION, path, e.getMessage());
+        ErrorResponse response = ErrorResponse.response(Errors.EMAIL_DUPLICATION, path, e.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e, HttpServletRequest request){
         String path = request.getRequestURL().toString();
-        ErrorResponse response = ErrorResponse.of(Errors.METHOD_NOT_ALLOWED, path, e.getMessage());
+        ErrorResponse response = ErrorResponse.response(Errors.METHOD_NOT_ALLOWED, path, e.getMessage());
         HttpHeaders headers = new HttpHeaders();
         headers.add("Error message", "Bad credentials");
         return new ResponseEntity<>(response, headers, HttpStatus.UNAUTHORIZED);
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentNotValidException e, HttpServletRequest request){
         String path = request.getRequestURL().toString();
-        ErrorResponse response = ErrorResponse.of(Errors.INVALID_INPUT_VALUE, path, e.getBindingResult());
+        ErrorResponse response = ErrorResponse.response(Errors.INVALID_INPUT_VALUE, path, e.getBindingResult());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoEntityFoundException.class)
     public ResponseEntity<ErrorResponse> handleNoEntityFoundException(NoEntityFoundException e, HttpServletRequest request){
         String path = request.getRequestURL().toString();
-        ErrorResponse response = ErrorResponse.of(Errors.INVALID_INPUT_VALUE, path, e.getMessage());
+        ErrorResponse response = ErrorResponse.response(Errors.INVALID_INPUT_VALUE, path, e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request){
         String path = request.getRequestURL().toString();
         e.printStackTrace();
-        final ErrorResponse response = ErrorResponse.of(Errors.INTERNAL_SERVER_ERROR, path, "server error.");
+        final ErrorResponse response = ErrorResponse.response(Errors.INTERNAL_SERVER_ERROR, path, "server error.");
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
